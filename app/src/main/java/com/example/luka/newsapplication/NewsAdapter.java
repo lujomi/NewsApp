@@ -15,6 +15,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private List<Article> articles;
     private ArticleListener listener;
+    private Article article;
 
     public NewsAdapter(List<Article> articles, ArticleListener listener) {
         this.articles = articles;
@@ -30,16 +31,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder newsViewHolder, final int position) {
-        final Article article = articles.get(position);
+        article = articles.get(position);
         newsViewHolder.title.setText(article.getTitle());
         newsViewHolder.author.setText(article.getAuthor());
-
-        newsViewHolder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.articleClicked(article);
-            }
-        });
     }
 
     @Override
@@ -57,6 +51,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             title = itemView.findViewById(R.id.titleText);
             author=itemView.findViewById(R.id.authorText);
             layout = itemView.findViewById(R.id.newsItemLayout);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Article articlePosition = articles.get(position);
+                    listener.articleClicked(articlePosition);
+                }
+            });
         }
     }
 
